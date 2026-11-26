@@ -1,0 +1,35 @@
+# System-wide bashrc
+[[ -r /etc/bashrc ]] && . /etc/bashrc
+
+# Environment & PATH
+export EDITOR=hx
+export VISUAL=hx
+
+for _dir in "$HOME/.local/bin" "$HOME/bin"; do
+  [[ -d "$_dir" && ":$PATH:" != *":$_dir:"* ]] && PATH="$PATH:$_dir"
+done
+unset _dir
+export PATH
+
+# Interactive-only settings
+if [[ $- == *i* ]]; then
+  ts() {
+    local line
+    while IFS= read -r line || [[ -n "$line" ]]; do
+      printf '[%(%F %T)T] %s\n' -1 "$line"
+    done
+  }
+
+  parse_git_branch() {
+    local branch
+    branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null) ||
+      branch=$(git rev-parse --short HEAD 2>/dev/null) ||
+      return
+    printf ' (%s)' "$branch"
+  }
+
+  PS1='[\t \u@\h \[\e[32m\]\w\[\e[33m\]$(parse_git_branch)\[\e[0m\]]\$ '
+fi
+
+# Machine-local overrides
+[[ -r "$HOME/.bashrc.local" ]] && . "$HOME/.bashrc.local"

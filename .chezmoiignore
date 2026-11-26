@@ -1,0 +1,16 @@
+README.md
+.gitconfig.local
+.bashrc.local
+
+{{- if eq .chezmoi.os "windows" }}
+.config/helix
+.config/nushell
+.local/share/nushell
+{{- else }}
+AppData
+{{- end }}
+
+{{- if not (lookPath "starship") }}
+AppData/Roaming/nushell/vendor/autoload/starship.nu
+.local/share/nushell/vendor/autoload/starship.nu
+{{- end }}

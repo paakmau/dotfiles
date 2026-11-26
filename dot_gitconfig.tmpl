@@ -1,0 +1,23 @@
+[user]
+    name = He Bomou
+    email = paakmau@outlook.com
+
+[alias]
+    co = checkout
+    ci = commit
+    cp = cherry-pick
+    br = branch
+    last = log -1
+
+[pull]
+    rebase = true
+
+[push]
+    default = simple
+
+[core]
+    editor = hx
+    autocrlf = {{ if eq .chezmoi.os "windows" }}true{{ else }}input{{ end }}
+
+[include]
+    path = ~/.gitconfig.local
